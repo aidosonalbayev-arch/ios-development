@@ -30,5 +30,5 @@ void main() {
     deliveryFee: 1050.0,
   );
 
-  print('Total to pay: $total ₸');
+  print('Total to pay: $total');
 }
