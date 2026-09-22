@@ -23,39 +23,39 @@ String showNextData(List<int> dateArray) {
     case 10:
     case 12:
       days = 31;
+      break;
 
     case 4:
     case 6:
     case 9:
     case 11:
       days = 30;
+      break;
 
     case 2:
-      days =
-          ((dateArray[2] % 4 == 0 && dateArray[2] % 100 != 0) ||
-              (dateArray[2] % 400 == 0))
-          ? 29
-          : 28;
+      if ((dateArray[2] % 4 == 0 && dateArray[2] % 100 != 0) ||
+          dateArray[2] % 400 == 0) {
+        days = 29;
+      } else {
+        days = 28;
+      }
+      break;
   }
 
-  int month = 12;
-  int years = dateArray[2];
-  if (dateArray[0] + 1 > days || dateArray[1] + 1 > month) {
-    return ("invalid data");
-  } else if (dateArray[0] + 1 <= days) {
-    dateArray[0] += 1;
-    return (dateArray.join('.'));
-  }
-  if (dateArray[1] + 1 < month) {
-    dateArray[0] = 1;
-    dateArray[1] += 1;
-    return (dateArray.join('.'));
+  if (dateArray[0] < days) {
+    dateArray[0] = dateArray[0] + 1;
   } else {
     dateArray[0] = 1;
-    dateArray[1] = 1;
-    dateArray[2] += 1;
-    return (dateArray.join('.'));
+
+    if (dateArray[1] < 12) {
+      dateArray[1] = dateArray[1] + 1;
+    } else {
+      dateArray[1] = 1;
+      dateArray[2] = dateArray[2] + 1;
+    }
   }
+
+  return dateArray.join('.');
 }
 
 int showVowel(String text) {
@@ -104,7 +104,7 @@ String prineNumber(int number) {
 
 void main() {
   // runApp(const MyApp());
-  String day = '15.55.20280';
+  String day = '31.12.2026';
   List<int> dateArray = day.split('.').map(int.parse).toList();
   print(showNextData(dateArray));
 
