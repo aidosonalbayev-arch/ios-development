@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+// void main() {
+//   runApp(const BusinessApp());
+// }
+
 class BusinessApp extends StatelessWidget {
   const BusinessApp({super.key});
 
@@ -104,10 +108,18 @@ class _ProfileCardScreenState extends State<ProfileCardScreen> {
                       icon: Icon(
                         _isLiked ? Icons.favorite : Icons.favorite_border,
                       ),
-                      label: Text(_isLiked ? 'Liked' : 'Like'),
+                      label: Text('Like'),
+                    ),
+                    OutlinedButton.icon(
+                      onPressed: _toggleDisLike,
+                      icon: Icon(
+                        _isLiked ? Icons.favorite : Icons.favorite_border,
+                      ),
+                      label: Text('DisLike'),
                     ),
                   ],
                 ),
+
                 const SizedBox(height: 12),
                 TextButton(onPressed: _reset, child: const Text('Reset')),
               ],
@@ -132,11 +144,13 @@ class _ProfileCardScreenState extends State<ProfileCardScreen> {
 
   void _toggleLike() {
     setState(() {
-      _isLiked = !_isLiked;
+      _likesCount++;
+    });
+  }
 
-      if (_isLiked) {
-        _likesCount++;
-      } else {
+  void _toggleDisLike() {
+    setState(() {
+      if (_likesCount > 0) {
         _likesCount--;
       }
     });

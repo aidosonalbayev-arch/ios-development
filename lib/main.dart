@@ -2,9 +2,9 @@ import 'app.dart';
 
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const BusinessApp());
-}
+// void main() {
+//   runApp(const MyApp());
+// }
 // void showMultyply() {
 //   for (var i = 1; i <= 10; i++) {
 //     for (var j = 1; j <= 10; j++) {
