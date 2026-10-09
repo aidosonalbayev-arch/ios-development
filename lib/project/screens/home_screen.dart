@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/place.dart';
 import '../widgets/place_card.dart';
 import 'detail_screen.dart';
+import 'register_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,7 +23,21 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Explore'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('Explore'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person_add),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const RegisterScreen()),
+              );
+            },
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Padding(
