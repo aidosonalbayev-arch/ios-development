@@ -15,8 +15,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final passwordController = TextEditingController();
   final confirmController = TextEditingController();
 
-  final List<String> roles = ['Student', 'Teacher', 'Developer'];
-  String selectedRole = 'Student';
+  bool notifications = true;
 
   bool hidePassword = true;
   bool hideConfirm = true;
@@ -81,7 +80,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       print('Full name: ${nameController.text}');
       print('Email: ${emailController.text}');
       print('Password: ${passwordController.text}');
-      print('Role: $selectedRole');
+      print('Notifications: $notifications');
       print('Terms accepted: $acceptTerms');
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -199,41 +198,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    DropdownButtonFormField<String>(
-                      value: selectedRole,
-                      decoration: const InputDecoration(
-                        labelText: 'Role',
-                        prefixIcon: Icon(Icons.badge),
-                        border: OutlineInputBorder(),
-                      ),
-                      items: roles.map((role) {
-                        return DropdownMenuItem(value: role, child: Text(role));
-                      }).toList(),
+                    SwitchListTile(
+                      title: const Text('Travel notifications'),
+                      value: notifications,
                       onChanged: (value) {
                         setState(() {
-                          selectedRole = value!;
+                          notifications = value;
                         });
                       },
                     ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: acceptTerms,
-                          onChanged: (value) {
-                            setState(() {
-                              acceptTerms = value!;
-                              if (acceptTerms) {
-                                showTermsError = false;
-                              }
-                            });
-                          },
-                        ),
-                        const Expanded(
-                          child: Text('I accept the Terms and Conditions'),
-                        ),
-                      ],
+                    CheckboxListTile(
+                      contentPadding: EdgeInsets.zero,
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: const Text('I accept the Terms and Conditions'),
+                      value: acceptTerms,
+                      onChanged: (value) {
+                        setState(() {
+                          acceptTerms = value!;
+                          if (acceptTerms) {
+                            showTermsError = false;
+                          }
+                        });
+                      },
                     ),
                     if (showTermsError)
                       const Padding(

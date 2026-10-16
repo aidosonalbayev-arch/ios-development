@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/place.dart';
+import 'place_image.dart';
 
 class PlaceCard extends StatelessWidget {
   final Place place;
@@ -23,17 +24,7 @@ class PlaceCard extends StatelessWidget {
         onTap: onTap,
         child: Row(
           children: [
-            Container(
-              width: 100,
-              height: 110,
-              color: place.color,
-              child: Image.asset(
-                place.imagePath,
-                width: 50, // задайте нужные размеры
-                height: 50,
-                fit: BoxFit.cover,
-              ),
-            ),
+            PlaceImage(place: place, width: 100, height: 110),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(12),

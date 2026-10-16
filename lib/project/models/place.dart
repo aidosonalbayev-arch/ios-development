@@ -6,9 +6,9 @@ class Place {
   final double price;
   final double rating;
   final String description;
+  final String imagePath;
   final List<String> tags;
   final Color color;
-  final String imagePath;
   bool isFavorite;
 
   Place({
@@ -17,9 +17,9 @@ class Place {
     required this.price,
     required this.rating,
     required this.description,
+    required this.imagePath,
     required this.tags,
     required this.color,
-    required this.imagePath,
     this.isFavorite = false,
   });
 }
@@ -33,9 +33,9 @@ List<Place> places = [
     description:
         'Charyn Canyon is one of the most beautiful places in Kazakhstan. '
         'You can walk along the Valley of Castles and see red rocks.',
+    imagePath: 'assets/charyn.jpg',
     tags: ['Nature', 'Hiking', 'Photo', 'Weekend'],
     color: Colors.deepOrange,
-    imagePath: 'assets/charyn.jpg',
   ),
   Place(
     name: 'Big Almaty Lake',
@@ -45,9 +45,9 @@ List<Place> places = [
     description:
         'A turquoise mountain lake near Almaty. '
         'Great place for a short trip and for nice photos.',
+    imagePath: 'assets/bigalmatylake.jpg',
     tags: ['Lake', 'Mountains', 'Photo'],
     color: Colors.blue,
-    imagePath: 'assets/bigalmatylake.jpg',
   ),
   Place(
     name: 'Bali Beach',
@@ -57,9 +57,9 @@ List<Place> places = [
     description:
         'Warm sea, surfing and tasty food. '
         'Bali is a perfect place to relax and enjoy the sun.',
+    imagePath: 'assets/balibeach.jpg',
     tags: ['Beach', 'Surfing', 'Relax', 'Sea', 'Summer'],
     color: Colors.teal,
-    imagePath: 'assets/balibeach.jpg',
   ),
   Place(
     name: 'Istanbul City Tour',
@@ -69,9 +69,9 @@ List<Place> places = [
     description:
         'Visit Hagia Sophia, the Blue Mosque and the Grand Bazaar. '
         'A city where Europe meets Asia.',
+    imagePath: 'assets/stambulcitytour.jpg',
     tags: ['City', 'History', 'Food'],
     color: Colors.purple,
-    imagePath: 'assets/stambulcitytour.jpg',
   ),
   Place(
     name: 'Swiss Alps',
