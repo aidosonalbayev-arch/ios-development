@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:go_router/go_router.dart';
 
 import 'models/place.dart';
@@ -6,16 +7,26 @@ import 'screens/detail_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/root_screen.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  usePathUrlStrategy();
+  runApp(const MyApp());
+}
 
 final _router = GoRouter(
   routes: [
     GoRoute(path: '/', builder: (context, state) => const RootScreen()),
     GoRoute(
       path: '/place/:id',
+      redirect: (context, state) {
+        int? id = int.tryParse(state.pathParameters['id']!);
+        if (id == null || id < 0 || id >= places.length) {
+          return '/';
+        }
+        return null;
+      },
       builder: (context, state) {
         int id = int.parse(state.pathParameters['id']!);
-        return DetailScreen(place: places[id]);
+        return DetailScreen(place: places[id - 1]);
       },
     ),
     GoRoute(

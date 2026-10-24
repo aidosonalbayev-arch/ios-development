@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../models/place.dart';
 import '../widgets/place_image.dart';
@@ -16,6 +17,14 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   int people = 1;
 
+  void goBack([String? result]) {
+    if (Navigator.of(context).canPop()) {
+      Navigator.pop(context, result);
+    } else {
+      context.go('/');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Place place = widget.place;
@@ -24,9 +33,7 @@ class _DetailScreenState extends State<DetailScreen> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => goBack(),
         ),
         title: Text(place.name),
       ),
@@ -143,9 +150,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton.icon(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
+                          onPressed: () => goBack(),
                           icon: const Icon(Icons.arrow_back),
                           label: const Text('Back to list'),
                           style: OutlinedButton.styleFrom(
@@ -193,10 +198,7 @@ class _DetailScreenState extends State<DetailScreen> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(
-                      context,
-                      'Booked $people person(s) to ${place.name}',
-                    );
+                    goBack('Booked $people person(s) to ${place.name}');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.teal,
