@@ -19,14 +19,14 @@ final _router = GoRouter(
       path: '/place/:id',
       redirect: (context, state) {
         int? id = int.tryParse(state.pathParameters['id']!);
-        if (id == null || id < 0 || id >= places.length) {
+        if (id == null || findPlaceById(id) == null) {
           return '/';
         }
         return null;
       },
       builder: (context, state) {
         int id = int.parse(state.pathParameters['id']!);
-        return DetailScreen(place: places[id - 1]);
+        return DetailScreen(place: findPlaceById(id)!);
       },
     ),
     GoRoute(
