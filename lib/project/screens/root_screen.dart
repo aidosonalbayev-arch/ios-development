@@ -16,6 +16,7 @@ class RootScreen extends StatefulWidget {
 
 class _RootScreenState extends State<RootScreen> {
   int currentIndex = 0;
+  bool isGrid = false;
 
   final List<String> titles = ['Explore', 'Favorites', 'Profile'];
 
@@ -23,6 +24,10 @@ class _RootScreenState extends State<RootScreen> {
     setState(() {
       place.isFavorite = !place.isFavorite;
     });
+  }
+
+  void refreshAll() {
+    setState(() {});
   }
 
   void showResult(String? result) {
@@ -40,19 +45,38 @@ class _RootScreenState extends State<RootScreen> {
   }
 
   void openFromFavorites(Place place) async {
-    int id = places.indexOf(place);
-    final result = await context.push<String>('/place/$id');
+    final result = await context.push<String>('/place/${place.id}');
     showResult(result);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(titles[currentIndex]), centerTitle: true),
+      appBar: AppBar(
+        title: Text(titles[currentIndex]),
+        centerTitle: true,
+        actions: [
+          if (currentIndex == 0)
+            IconButton(
+              tooltip: isGrid ? 'List view' : 'Grid view',
+              icon: Icon(isGrid ? Icons.view_list : Icons.grid_view),
+              onPressed: () {
+                setState(() {
+                  isGrid = !isGrid;
+                });
+              },
+            ),
+        ],
+      ),
       body: IndexedStack(
         index: currentIndex,
         children: [
-          FeedScreen(onOpen: openFromFeed, onFavorite: toggleFavorite),
+          FeedScreen(
+            isGrid: isGrid,
+            onOpen: openFromFeed,
+            onFavorite: toggleFavorite,
+            onChanged: refreshAll,
+          ),
           FavoritesScreen(
             onOpen: openFromFavorites,
             onFavorite: toggleFavorite,

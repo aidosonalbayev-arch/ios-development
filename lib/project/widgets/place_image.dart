@@ -11,24 +11,18 @@ class PlaceImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
+    return Image.asset(
       place.imagePath,
       width: width,
       height: height,
       fit: BoxFit.cover,
-      loadingBuilder: (context, child, progress) {
-        if (progress == null) {
-          return child;
-        }
+      errorBuilder: (context, error, stackTrace) {
         return Container(
           width: width,
           height: height,
-          color: place.color.withOpacity(0.3),
-          child: const Center(child: CircularProgressIndicator()),
+          color: place.color,
+          child: const Icon(Icons.image, color: Colors.white, size: 44),
         );
-      },
-      errorBuilder: (context, error, stackTrace) {
-        return Container(width: width, height: height, color: place.color);
       },
     );
   }

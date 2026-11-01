@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../models/user_data.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -15,7 +18,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final passwordController = TextEditingController();
   final confirmController = TextEditingController();
 
+  final List<String> roles = ['Student', 'Teacher', 'Developer'];
+  String selectedRole = 'Student';
+
+  final List<String> cities = ['Almaty', 'Astana', 'Shymkent'];
+  String selectedCity = 'Almaty';
+
   bool notifications = true;
+  double budget = 500;
 
   bool hidePassword = true;
   bool hideConfirm = true;
@@ -80,17 +90,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
       print('Full name: ${nameController.text}');
       print('Email: ${emailController.text}');
       print('Password: ${passwordController.text}');
+      print('Role: $selectedRole');
+      print('City: $selectedCity');
       print('Notifications: $notifications');
+      print('Trip budget: ${budget.round()}');
       print('Terms accepted: $acceptTerms');
+
+      currentUser.value = UserData(
+        name: nameController.text.trim(),
+        email: emailController.text.trim(),
+        city: selectedCity,
+        notifications: notifications,
+      );
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.green,
           content: Text(
-            'Welcome, ${nameController.text}! Registration successful',
+            'Welcome, ${currentUser.value!.name}! Registration successful',
           ),
         ),
       );
+
+      if (Navigator.of(context).canPop()) {
+        Navigator.pop(context);
+      } else {
+        context.go('/');
+      }
     }
   }
 
@@ -197,6 +223,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           },
                         ),
                       ),
+                    ),
+                    const SizedBox(height: 16),
+                    DropdownButtonFormField<String>(
+                      value: selectedCity,
+                      decoration: const InputDecoration(
+                        labelText: 'City',
+                        prefixIcon: Icon(Icons.location_city),
+                        border: OutlineInputBorder(),
+                      ),
+                      items: cities.map((city) {
+                        return DropdownMenuItem(value: city, child: Text(city));
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedCity = value!;
+                        });
+                      },
                     ),
                     SwitchListTile(
                       title: const Text('Travel notifications'),
