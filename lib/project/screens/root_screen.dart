@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../models/place.dart';
+import '../providers/cart_provider.dart';
+import 'catalog_screen.dart';
 import 'detail_screen.dart';
 import 'favorites_screen.dart';
 import 'feed_screen.dart';
@@ -18,7 +21,7 @@ class _RootScreenState extends State<RootScreen> {
   int currentIndex = 0;
   bool isGrid = false;
 
-  final List<String> titles = ['Explore', 'Favorites', 'Profile'];
+  final List<String> titles = ['Explore', 'Favorites', 'Shop', 'Profile'];
 
   void toggleFavorite(Place place) {
     setState(() {
@@ -66,6 +69,19 @@ class _RootScreenState extends State<RootScreen> {
                 });
               },
             ),
+          Consumer<CartProvider>(
+            builder: (context, cart, child) {
+              return IconButton(
+                tooltip: 'Cart',
+                icon: Badge(
+                  label: Text('${cart.count}'),
+                  isLabelVisible: cart.count > 0,
+                  child: const Icon(Icons.shopping_cart),
+                ),
+                onPressed: () => context.push('/cart'),
+              );
+            },
+          ),
         ],
       ),
       body: IndexedStack(
@@ -81,10 +97,12 @@ class _RootScreenState extends State<RootScreen> {
             onOpen: openFromFavorites,
             onFavorite: toggleFavorite,
           ),
+          const CatalogScreen(),
           const ProfileScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: currentIndex,
         onTap: (index) {
           setState(() {
@@ -97,6 +115,7 @@ class _RootScreenState extends State<RootScreen> {
             icon: Icon(Icons.favorite),
             label: 'Favorites',
           ),
+          BottomNavigationBarItem(icon: Icon(Icons.storefront), label: 'Shop'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
