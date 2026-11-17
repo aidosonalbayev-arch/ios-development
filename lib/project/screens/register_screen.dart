@@ -86,15 +86,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
 
     if (formIsValid && acceptTerms) {
-      print('--- Registration data ---');
-      print('Full name: ${nameController.text}');
-      print('Email: ${emailController.text}');
-      print('Password: ${passwordController.text}');
-      print('Role: $selectedRole');
-      print('City: $selectedCity');
-      print('Notifications: $notifications');
-      print('Trip budget: ${budget.round()}');
-      print('Terms accepted: $acceptTerms');
+      debugPrint('--- Registration data ---');
+      debugPrint('Full name: ${nameController.text}');
+      debugPrint('Email: ${emailController.text}');
+      debugPrint('Password: ${passwordController.text}');
+      debugPrint('Role: $selectedRole');
+      debugPrint('City: $selectedCity');
+      debugPrint('Notifications: $notifications');
+      debugPrint('Trip budget: ${budget.round()}');
+      debugPrint('Terms accepted: $acceptTerms');
 
       currentUser.value = UserData(
         name: nameController.text.trim(),
@@ -226,7 +226,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
-                      value: selectedCity,
+                      initialValue: selectedCity,
                       decoration: const InputDecoration(
                         labelText: 'City',
                         prefixIcon: Icon(Icons.location_city),

@@ -62,16 +62,23 @@ class CartScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 Product product = cart.items[index];
                 return ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: product.color,
-                    child: Icon(product.icon, color: Colors.white),
+                  leading: SizedBox(
+                    width: 48,
+                    height: 48,
+                    child: Image.network(
+                      product.imageUrl,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Icon(Icons.image_not_supported);
+                      },
+                    ),
                   ),
                   title: Text(
-                    product.name,
+                    product.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  subtitle: Text('\$${product.price.toInt()}'),
+                  subtitle: Text('\$${product.price.toStringAsFixed(2)}'),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete_outline, color: Colors.red),
                     onPressed: () =>

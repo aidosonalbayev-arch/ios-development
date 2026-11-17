@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../models/place.dart';
 import '../providers/cart_provider.dart';
 import 'catalog_screen.dart';
-import 'detail_screen.dart';
+import 'place_detail_screen.dart';
 import 'favorites_screen.dart';
 import 'feed_screen.dart';
 import 'profile_screen.dart';
