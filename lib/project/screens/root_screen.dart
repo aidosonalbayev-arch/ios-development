@@ -8,6 +8,7 @@ import 'catalog_screen.dart';
 import 'place_detail_screen.dart';
 import 'favorites_screen.dart';
 import 'feed_screen.dart';
+import 'notes_screen.dart';
 import 'profile_screen.dart';
 
 class RootScreen extends StatefulWidget {
@@ -21,7 +22,13 @@ class _RootScreenState extends State<RootScreen> {
   int currentIndex = 0;
   bool isGrid = false;
 
-  final List<String> titles = ['Explore', 'Favorites', 'Shop', 'Profile'];
+  final List<String> titles = [
+    'Explore',
+    'Favorites',
+    'Shop',
+    'Notes',
+    'Profile',
+  ];
 
   void toggleFavorite(Place place) {
     setState(() {
@@ -98,6 +105,7 @@ class _RootScreenState extends State<RootScreen> {
             onFavorite: toggleFavorite,
           ),
           const CatalogScreen(),
+          const NotesScreen(),
           const ProfileScreen(),
         ],
       ),
@@ -116,6 +124,7 @@ class _RootScreenState extends State<RootScreen> {
             label: 'Favorites',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.storefront), label: 'Shop'),
+          BottomNavigationBarItem(icon: Icon(Icons.note), label: 'Notes'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),

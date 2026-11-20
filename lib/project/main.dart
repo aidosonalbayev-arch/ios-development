@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'models/app_settings.dart';
 import 'models/place.dart';
 import 'providers/cart_provider.dart';
 import 'screens/cart_screen.dart';
@@ -10,8 +12,13 @@ import 'screens/place_detail_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/root_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
+
+  final prefs = await SharedPreferences.getInstance();
+  isDarkMode.value = prefs.getBool(darkModeKey) ?? false;
+
   runApp(const MyApp());
 }
 
@@ -47,13 +54,23 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => CartProvider(),
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        title: 'Travel App',
-        theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.teal),
-        routerConfig: _router,
+      child: ValueListenableBuilder<bool>(
+        valueListenable: isDarkMode,
+        builder: (context, dark, child) {
+          return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            title: 'Travel App',
+            theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.teal),
+            darkTheme: ThemeData(
+              useMaterial3: true,
+              colorSchemeSeed: Colors.teal,
+              brightness: Brightness.dark,
+            ),
+            themeMode: dark ? ThemeMode.dark : ThemeMode.light,
+            routerConfig: _router,
+          );
+        },
       ),
     );
-    
   }
 }
