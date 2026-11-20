@@ -65,13 +65,16 @@ class CartScreen extends StatelessWidget {
                   leading: SizedBox(
                     width: 48,
                     height: 48,
-                    child: Image.network(
-                      product.imageUrl,
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) {
-                        return const Icon(Icons.image_not_supported);
-                      },
-                    ),
+                    // Feed-тегі жерлердің суреті assets ішінде тұр
+                    child: product.imageUrl.startsWith('assets/')
+                        ? Image.asset(product.imageUrl, fit: BoxFit.cover)
+                        : Image.network(
+                            product.imageUrl,
+                            fit: BoxFit.contain,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(Icons.image_not_supported);
+                            },
+                          ),
                   ),
                   title: Text(
                     product.title,

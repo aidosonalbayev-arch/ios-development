@@ -30,6 +30,12 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Feed-тегі жерді сатып алғанда себетке қосамыз
+  void add(Product product) {
+    _items.add(product);
+    notifyListeners();
+  }
+
   void remove(Product product) {
     _items.removeWhere((item) => item.id == product.id);
     notifyListeners();

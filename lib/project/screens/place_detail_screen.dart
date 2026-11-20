@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../models/place.dart';
+import '../models/product.dart';
+import '../providers/cart_provider.dart';
 import '../widgets/place_image.dart';
 import '../widgets/tag_badge.dart';
 
@@ -198,7 +201,20 @@ class _DetailScreenState extends State<DetailScreen> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    goBack('Booked $people person(s) to ${place.name}');
+                    // Жерді Product етіп себетке саламыз
+                    Product product = Product(
+                      id: DateTime.now().millisecondsSinceEpoch,
+                      title: '${place.name} ($people person)',
+                      price: place.price * people,
+                      description: place.description,
+                      category: 'travel',
+                      imageUrl: place.imagePath,
+                      rating: place.rating,
+                      reviewCount: 0,
+                    );
+                    context.read<CartProvider>().add(product);
+
+                    goBack('${place.name} added to cart');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.teal,
