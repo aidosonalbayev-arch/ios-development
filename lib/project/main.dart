@@ -16,6 +16,7 @@ import 'screens/root_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   usePathUrlStrategy();
 
   final prefs = await SharedPreferences.getInstance();
