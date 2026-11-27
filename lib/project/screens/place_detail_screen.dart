@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
+import '../bloc/cart_bloc.dart';
+import '../bloc/cart_event.dart';
 import '../models/place.dart';
 import '../models/product.dart';
-import '../providers/cart_provider.dart';
 import '../widgets/place_image.dart';
 import '../widgets/tag_badge.dart';
 
@@ -212,7 +213,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       rating: place.rating,
                       reviewCount: 0,
                     );
-                    context.read<CartProvider>().add(product);
+                    context.read<CartBloc>().add(AddProductEvent(product));
 
                     goBack('${place.name} added to cart');
                   },

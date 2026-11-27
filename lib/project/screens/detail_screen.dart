@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/cart_bloc.dart';
+import '../bloc/cart_event.dart';
+import '../bloc/cart_state.dart';
 import '../models/product.dart';
-import '../providers/cart_provider.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
@@ -176,7 +178,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
     Product product = widget.product;
-    final cart = context.watch<CartProvider>();
+    CartState cart = context.watch<CartBloc>().state;
     bool inCart = cart.isInCart(product);
 
     return Scaffold(
@@ -282,7 +284,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           child: SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
-              onPressed: () => context.read<CartProvider>().toggle(product),
+              onPressed: () {
+                if (inCart) {
+                  context.read<CartBloc>().add(RemoveProductEvent(product.id));
+                } else {
+                  context.read<CartBloc>().add(AddProductEvent(product));
+                }
+              },
               icon: Icon(inCart ? Icons.check : Icons.add_shopping_cart),
               label: Text(inCart ? 'Added - tap to remove' : 'Add to Cart'),
               style: ElevatedButton.styleFrom(

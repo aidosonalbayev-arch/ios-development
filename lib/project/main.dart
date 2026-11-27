@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'bloc/auth_cubit.dart';
+import 'bloc/cart_bloc.dart';
 import 'models/app_settings.dart';
 import 'models/place.dart';
-import 'providers/cart_provider.dart';
 import 'screens/cart_screen.dart';
+import 'screens/login_screen.dart';
 import 'screens/place_detail_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/root_screen.dart';
@@ -23,8 +25,15 @@ void main() async {
 }
 
 final _router = GoRouter(
+  initialLocation: '/login', // қолданба Login экранынан басталады
   routes: [
+    GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
     GoRoute(path: '/', builder: (context, state) => const RootScreen()),
+    // Login-нан кейін бірден Shop (Catalog) табы ашылады
+    GoRoute(
+      path: '/shop',
+      builder: (context, state) => const RootScreen(startIndex: 2),
+    ),
     GoRoute(
       path: '/place/:id',
       redirect: (context, state) {
@@ -52,8 +61,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => CartProvider(),
+    // AuthCubit пен CartBloc бүкіл қолданбаға ортақ
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => AuthCubit()),
+        BlocProvider(create: (context) => CartBloc()),
+      ],
       child: ValueListenableBuilder<bool>(
         valueListenable: isDarkMode,
         builder: (context, dark, child) {

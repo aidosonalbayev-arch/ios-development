@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/cart_bloc.dart';
+import '../bloc/cart_event.dart';
+import '../bloc/cart_state.dart';
 import '../models/product.dart';
-import '../providers/cart_provider.dart';
 import '../services/product_service.dart';
 import 'detail_screen.dart';
 
@@ -103,7 +105,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
   }
 
   Widget buildItem(Product product) {
-    final cart = context.watch<CartProvider>();
+    CartState cart = context.watch<CartBloc>().state;
     bool inCart = cart.isInCart(product);
 
     return ListTile(
@@ -170,7 +172,13 @@ class _CatalogScreenState extends State<CatalogScreen> {
         ),
       ),
       trailing: IconButton(
-        onPressed: () => context.read<CartProvider>().toggle(product),
+        onPressed: () {
+          if (inCart) {
+            context.read<CartBloc>().add(RemoveProductEvent(product.id));
+          } else {
+            context.read<CartBloc>().add(AddProductEvent(product));
+          }
+        },
         icon: Icon(
           inCart ? Icons.shopping_cart : Icons.add_shopping_cart,
           color: inCart ? Colors.teal : Colors.grey,

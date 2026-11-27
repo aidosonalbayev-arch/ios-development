@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
+import '../bloc/cart_bloc.dart';
+import '../bloc/cart_state.dart';
 import '../models/place.dart';
-import '../providers/cart_provider.dart';
 import 'catalog_screen.dart';
 import 'place_detail_screen.dart';
 import 'favorites_screen.dart';
@@ -12,7 +13,9 @@ import 'notes_screen.dart';
 import 'profile_screen.dart';
 
 class RootScreen extends StatefulWidget {
-  const RootScreen({super.key});
+  final int startIndex; // қай табтан басталады (0 = Feed, 2 = Shop)
+
+  const RootScreen({super.key, this.startIndex = 0});
 
   @override
   State<RootScreen> createState() => _RootScreenState();
@@ -21,6 +24,12 @@ class RootScreen extends StatefulWidget {
 class _RootScreenState extends State<RootScreen> {
   int currentIndex = 0;
   bool isGrid = false;
+
+  @override
+  void initState() {
+    super.initState();
+    currentIndex = widget.startIndex;
+  }
 
   final List<String> titles = [
     'Explore',
@@ -76,8 +85,9 @@ class _RootScreenState extends State<RootScreen> {
                 });
               },
             ),
-          Consumer<CartProvider>(
-            builder: (context, cart, child) {
+          // Себет өзгерсе, тек осы батырма қайта сызылады
+          BlocBuilder<CartBloc, CartState>(
+            builder: (context, cart) {
               return IconButton(
                 tooltip: 'Cart',
                 icon: Badge(
