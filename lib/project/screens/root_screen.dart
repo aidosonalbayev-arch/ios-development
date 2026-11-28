@@ -85,6 +85,12 @@ class _RootScreenState extends State<RootScreen> {
                 });
               },
             ),
+          // LW13: Photo Diary экранын ашады
+          IconButton(
+            tooltip: 'Photo Diary',
+            icon: const Icon(Icons.camera_alt),
+            onPressed: () => context.push('/diary'),
+          ),
           // Себет өзгерсе, тек осы батырма қайта сызылады
           BlocBuilder<CartBloc, CartState>(
             builder: (context, cart) {

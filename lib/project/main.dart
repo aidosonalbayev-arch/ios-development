@@ -10,6 +10,7 @@ import 'models/app_settings.dart';
 import 'models/place.dart';
 import 'screens/cart_screen.dart';
 import 'screens/login_screen.dart';
+import 'screens/photo_diary_screen.dart';
 import 'screens/place_detail_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/root_screen.dart';
@@ -50,6 +51,11 @@ final _router = GoRouter(
       },
     ),
     GoRoute(path: '/cart', builder: (context, state) => const CartScreen()),
+    // LW13: суретті күнделік
+    GoRoute(
+      path: '/diary',
+      builder: (context, state) => const PhotoDiaryScreen(),
+    ),
     GoRoute(
       path: '/register',
       builder: (context, state) => const RegisterScreen(),
