@@ -254,10 +254,10 @@ class _PhotoDiaryScreenState extends State<PhotoDiaryScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('📍 Latitude:  $lat'),
-            Text('📍 Longitude: $lng'),
-            Text('🎯 Accuracy:  $acc'),
-            Text('⏰ Timestamp: $timeText'),
+            Text('Latitude:  $lat'),
+            Text('Longitude: $lng'),
+            Text('Accuracy:  $acc'),
+            Text('Timestamp: $timeText'),
           ],
         ),
       ),
@@ -267,7 +267,7 @@ class _PhotoDiaryScreenState extends State<PhotoDiaryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('📸 Narxoz Photo Journal')),
+      appBar: AppBar(title: const Text('Photo Journal')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -324,7 +324,7 @@ class _PhotoDiaryScreenState extends State<PhotoDiaryScreen> {
           ),
           const SizedBox(height: 20),
           Text(
-            '📜 Diary Entries (${entries.length})',
+            'Diary Entries (${entries.length})',
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
